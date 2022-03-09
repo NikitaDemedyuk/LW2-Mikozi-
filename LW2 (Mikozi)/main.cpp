@@ -18,10 +18,10 @@ void setBit(int &num, int bit) {
 }
 
 std::vector <int> convertToBinary2(int num) {
-    std::vector <int> keyNumBinary1 = {1, 2, 3, 4, 5, 6, 7, 8};
-    std::vector <int> keyNumBinary2 = {1, 2, 3, 4, 9, 10, 11, 12};
-    std::vector <int> keyNumBinary3 = {5, 6, 7, 8, 12, 11, 10, 9};
-    std::vector <std::vector <int>> keyNumBinary = {keyNumBinary1, keyNumBinary2, keyNumBinary3};
+   
+    std::vector <std::vector <int>> keyNumBinary = {{1, 2, 3, 4, 5, 6, 7, 8},
+                                                    {1, 2, 3, 4, 9, 10, 11, 12},
+                                                    {5, 6, 7, 8, 12, 11, 10, 9}};
     
     std::vector <int> keyBinary (3);
     
@@ -32,7 +32,9 @@ std::vector <int> convertToBinary2(int num) {
             }
         }
     }
+   
     return keyBinary;
+    
 }
 
 int shuffleNum(int num) {
@@ -45,10 +47,8 @@ int shuffleNum(int num) {
             setBit(resNum, 8 - i);
         }
     }
-
     return resNum;
 }
-
 
 void splitNum(int num, int &part1, int &part2) {
     part1 = 0b11110000;
@@ -79,27 +79,13 @@ int encryptMessage(std::vector <int> keyBinary, int num) {
         splitNum(num, part1, part2);
         num = s1[part1] << 4 ^ s2[part2];
         num = shuffleNum(num);
+        std::cout << "Iteration " << i + 1 << " : " << std::bitset<8>(num) << "\n";
     }
     return num;
 }
 
 int main(int argc, const char * argv[]) {
 
-    /*
-    std::cout << "Programm start!\n";
-    std::cout << "N = 16, 7 * 16 = 102\n";
-    int num = 102;
-    std::vector <int> numBinary = convertToBinary(num);
-    printBinaryNum(numBinary);
-    
-    std::cout << "key = 4096 – 11 * 7 * 6 = 3634; q = 6; r = 7\n";
-    
-    int keyNum = 3634;
-    std::vector <int> keyNumBinary = convertToBinary(keyNum);
-    printBinaryNum(keyNumBinary);
-    return 0;
-     
-    */
     int num = 102;
     int keyNum = 3634;
     
@@ -110,6 +96,8 @@ int main(int argc, const char * argv[]) {
     int numChangeBit = num ^ 1;
     
     num = encryptMessage(keyBinary, num);
+    
+    std::cout << "---------------\n";
     
     numChangeBit = encryptMessage(keyBinary, numChangeBit);
     
