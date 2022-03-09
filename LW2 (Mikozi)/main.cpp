@@ -17,12 +17,11 @@ void setBit(int &num, int bit) {
     num |= 1 << (bit - 1);
 }
 
-std::vector <int> convertToBinary2(int num) {
+std::vector <int> convertToBinary(int num) {
    
     std::vector <std::vector <int>> keyNumBinary = {{1, 2, 3, 4, 5, 6, 7, 8},
                                                     {1, 2, 3, 4, 9, 10, 11, 12},
                                                     {5, 6, 7, 8, 12, 11, 10, 9}};
-    
     std::vector <int> keyBinary (3);
     
     for (int k = 0; k < 3; ++k) {
@@ -32,15 +31,13 @@ std::vector <int> convertToBinary2(int num) {
             }
         }
     }
-   
     return keyBinary;
-    
 }
 
 int shuffleNum(int num) {
     std::vector <int> keyNumBinary = {1, 4, 7, 2, 5, 8, 3, 6};
     
-    int resNum = 0;
+    int resNum {0};
     
     for (int i = 0; i < 8; ++i) {
         if (findBit(num, 9 - keyNumBinary[i])) {
@@ -86,24 +83,26 @@ int encryptMessage(std::vector <int> keyBinary, int num) {
 
 int main(int argc, const char * argv[]) {
 
+    std::cout << "N = 7 * N = 7 * 16 = 102\n4096 – 11 * q * r = 4096 - 11 * 6 * 7 = 3634\n";
+    std::cout << "-------------------------------------------------------\n";
+    
     int num = 102;
     int keyNum = 3634;
     
-    std::vector <int> keyBinary = convertToBinary2(keyNum);
-    
-    printBinaryNum(keyBinary);
-    
+    std::cout << "N = " << num << " (" << std::bitset<8> (num) << ") \n";
+    std::vector <int> keyBinary = convertToBinary(keyNum);
     int numChangeBit = num ^ 1;
-    
     num = encryptMessage(keyBinary, num);
     
-    std::cout << "---------------\n";
+    std::cout << "-------------------------------------------------------\n";
     
+    std::cout << "N = " << numChangeBit << " (" << std::bitset<8> (numChangeBit) << ") \n";
     numChangeBit = encryptMessage(keyBinary, numChangeBit);
     
-    std::cout << std::bitset<8>(num) << "\n";
+    std::cout << "-------------------------------------------------------\n";
     
-    std::cout << std::bitset<8>(numChangeBit) << "\n";
+    std::cout << "Result (N = 102) : " << std::bitset<8>(num) << "\n";
+    std::cout << "Result (N = 103) : " << std::bitset<8>(numChangeBit) << "\n";
     
     return 0;
 }
